@@ -1,5 +1,6 @@
 require 'builder'
 require 'faraday'
+require 'faraday_middleware'
 
 class CASino::ServiceTicket::SingleSignOutNotifier
   def initialize(service_ticket)
@@ -11,6 +12,7 @@ class CASino::ServiceTicket::SingleSignOutNotifier
   end
 
   private
+
   def build_xml
     xml = Builder::XmlMarkup.new(indent: 2)
     xml.samlp :LogoutRequest,
@@ -27,7 +29,13 @@ class CASino::ServiceTicket::SingleSignOutNotifier
 
   def send_notification(url, xml)
     Rails.logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
-    result = Faraday.post(url, logoutRequest: xml) do |request|
+
+    server, path = split_url(url)
+    connection = Faraday.new(server) do |conn|
+      conn.use FaradayMiddleware::FollowRedirects
+      conn.adapter Faraday.default_adapter
+    end
+    result = connection.post(path, "logoutRequest=#{URI.encode(xml)}") do |request|
       request.options[:timeout] = CASino.config.service_ticket[:single_sign_out_notification][:timeout]
     end
     if result.success?
@@ -40,5 +48,13 @@ class CASino::ServiceTicket::SingleSignOutNotifier
   rescue Faraday::Error::ClientError, Errno::ETIMEDOUT => error
     Rails.logger.warn "Failed to send logout notification to service #{url} due to #{error}"
     false
+  end
+
+  def split_url(url)
+    uri = URI.parse(url)
+    uri2 = uri.dup
+    uri.path = ''
+    uri.query = uri.fragment = nil
+    [uri.to_s, (uri2 - uri).to_s]
   end
 end

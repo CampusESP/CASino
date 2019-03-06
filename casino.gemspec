@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'addressable', '>= 2.3'
   s.add_runtime_dependency 'faraday', '>= 0.8'
+  s.add_runtime_dependency 'faraday_middleware', '>= 0.8'
   s.add_runtime_dependency 'grape', '>= 0.8'
   s.add_runtime_dependency 'grape-entity', '>= 0.4'
   s.add_runtime_dependency 'kaminari', '~> 0.16'
