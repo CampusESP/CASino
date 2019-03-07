@@ -1,0 +1,122 @@
+es:
+  login_credential_acceptor:
+    invalid_login_ticket: "Tu sesión ha caducado. Intenta acceder nuevamente."
+    invalid_login_credentials: "Email o contraseña incorrecto."
+  login:
+    label_username: "Email"
+    label_password: "Contraseña"
+    label_button: "Entrar"
+    label_remember_me: "Recuérdame"
+    notice: ""
+  service_not_allowed:
+    title: "Servicio no permitido"
+    message: "Este servicio no está configurado para acceder con \"%{service}\". Si crees que esto es un error, contacta con el equipo de soporte informático."
+  validate_otp:
+    title: "Autenticación de doble factor"
+    description: "Por favor, introduce una contraseña de un solo uso válida."
+    code: "Código"
+    submit: "Continuar"
+    invalid_otp: "La contraseña de un solo uso que has introducido no es correcta."
+  logout:
+    title: "Hasta luego"
+    logged_out_without_url: "Has finalizado tu sesión."
+    logged_out_with_url: "Continuar:"
+  sessions:
+    title: "Hola!"
+    currently_logged_in_as: "Has iniciado la sesión como <strong>%{username}</strong>."
+    label_logout_button: "Cerrar sesión"
+    your_active_sessions: "Tus sesiones activas"
+    table:
+      column_browser: "Navegador"
+      column_services: "Servicios"
+      column_activity: "Actividad más reciente"
+    current_session: "Sesión actual"
+    end_session: "Finalizar sesión"
+    last_login_attempts: Últimos intentos de acceso
+    all_login_attempts: Todos los intentos de acceso
+  two_factor_authenticators:
+    title: "Autenticación de doble factor"
+    setup: "Configurar autenticación de doble factor"
+    description: "La autenticación de doble factor solicita que introduzcas una contraseña de un solo uso (OTP) cada vez que intentes acceder a tu cuenta. Esta OTP se puede crear con una aplicación del móvil como <a href='https://es.wikipedia.org/wiki/Google_Authenticator'>Google Authenticator</a>."
+    instructions: "Si estás utilizando Google Authenticator, escanea con la aplicación el ćodigo QR que ves a continuación e introduce el código de verificación en la caja de texto de debajo."
+    disabled: "Desactivada"
+    enable: "Activar"
+    enabled: "Activada"
+    disable: "Desactivar"
+    cancel: "Cancelar"
+    secret: "Secreto"
+    code: "Código de confirmación"
+    submit: "Verificar y activar"
+    invalid_one_time_password: "La contraseña de un solo uso introducida no es correcta."
+    invalid_two_factor_authenticator: "La autenticación de doble factor ha caducado. Por favor, siga las instrucciones que aparecen debajo."
+    successfully_activated: "La autenticación de doble factor ha sido conectada a esta cuenta."
+    successfully_deleted: "La autenticación de doble factor ha sido desactivada."
+  datetime:
+    ago: "hace %{datetime}"
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de una hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de un mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de un año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi un año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_minutes:
+        one: menos de un minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de un segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: más de un año
+        other: más de %{count} años
+      x_days:
+        one: un día
+        other: ! '%{count} días'
+      x_minutes:
+        one: un minuto
+        other: ! '%{count} minutos'
+      x_months:
+        one: un mes
+        other: ! '%{count} meses'
+      x_seconds:
+        one: un segundo
+        other: ! '%{count} segundos'
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+  shared:
+    back: Volver
+  activerecord:
+    attributes:
+      casino/login_attempt:
+        created_at: Fecha
+        browser_info: Navegador
+        user_ip: Dirección IP
+        successful: Correcto
+    models:
+      casino/login_attempt:
+        one: Intento de acceso
+        other: Intentos de acceso
+  views:
+    pagination:
+      first: "&laquo; Primero"
+      last: "Último &raquo;"
+      previous: "&lsaquo; Anterior"
+      next: "Siguiente &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No se encontraron %{entry_name}"
+          one: "Mostrando <b>1</b> %{entry_name}"
+          other: "Mostrando <b>todas las %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> de <b>%{total}</b> en total"
