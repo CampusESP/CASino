@@ -17,13 +17,24 @@ module CASino::AuthenticationProcessor
       rescue CASino::Authenticator::AuthenticatorError => e
         Rails.logger.error "Authenticator '#{authenticator_name}' (#{authenticator.class}) raised an error: #{e}"
       end
-      if data
-        authentication_result = { authenticator: authenticator_name, user_data: data }
-        Rails.logger.info("Credentials for username '#{data[:username]}' successfully validated using authenticator '#{authenticator_name}' (#{authenticator.class})")
-        break
-      end
+
+      next unless data
+
+      authentication_result = { authenticator: authenticator_name, user_data: data }
+      Rails.logger.info("Credentials for username '#{data[:username]}' successfully validated using authenticator '#{authenticator_name}' (#{authenticator.class})")
+      break
     end
     authentication_result
+  end
+
+  def find_by_username(username)
+    authenticators.each do |authenticator_name, authenticator|
+      user_data = authenticator.load_user_data(username)
+
+      return { authenticator: authenticator_name, user_data: user_data } if user_data
+    end
+
+    nil
   end
 
   def load_user_data(authenticator_name, username)
@@ -32,6 +43,14 @@ module CASino::AuthenticationProcessor
     return unless authenticator.respond_to?(:load_user_data)
 
     authenticator.load_user_data(username)
+  end
+
+  def update_password(authenticator_name, username, password)
+    authenticator = authenticators[authenticator_name]
+    return unless authenticator
+    return unless authenticator.respond_to?(:update_password)
+
+    authenticator.update_password(username, password)
   end
 
   def authenticators

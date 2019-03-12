@@ -20,6 +20,11 @@ class CASino::StaticAuthenticator < CASino::Authenticator
     end
   end
 
+  def update_password(username, password)
+    Rails.logger.info "Password for #{username} should be changed to #{password}."
+    true
+  end
+
   def load_user_data(username)
     return unless @users.include?(username)
 
