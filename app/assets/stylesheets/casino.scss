@@ -136,7 +136,7 @@ input[type=password] {
   &.secondary {
     background: $buttonSecondaryColor;
     border: 1px solid darken($buttonSecondaryColor, 3%);
-    color: #222;
+    color: white;
 
     &:hover {
       background-color: darken($buttonSecondaryColor, 5%);
@@ -217,7 +217,7 @@ table {
   background-color: #FBECC6;
   border: 1px solid #F8DFA0;
   font-weight: 600;
-  height: 28px;
+  height: auto;
   line-height: 28px;
   margin-top: -10px;
   padding: 0 5px;
@@ -231,16 +231,11 @@ table {
 
 /// LOGIN ///
 .login {
-  > div {
-    height: 275px;
-  }
-
   .logo {
     background-position: 15px 50%;
     display: inline-block;
-    float: left;
     padding: 0 15px;
-    width: 45%;
+    width: 44%;
 
     img {
       visibility: hidden;
@@ -249,9 +244,10 @@ table {
 
   .form {
     border-left: 1px solid #eee;
-    float: left;
+    display: inline-block;
     padding: 15px;
-    width: 55%;
+    width: 54%;
+    vertical-align: middle;
   }
 }
 
@@ -274,19 +270,17 @@ table {
 .sessions, .logout {
   width: 800px;
 
-  > div {
-    height: 190px;
-  }
-
   .info {
-    float: left;
-    width: 60%;
+    display: inline-block;
+    width: 59%;
   }
 
   .logo {
+    vertical-align: top;
     background-position: right 1.8em;
-    float: left;
-    width: 40%;
+    display: inline-block;
+    width: 39%;
+    min-height: 100px;
   }
 
 
