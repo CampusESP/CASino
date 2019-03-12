@@ -22,7 +22,7 @@ es:
     logged_out_without_url: "Has finalizado tu sesión."
     logged_out_with_url: "Continuar:"
   sessions:
-    title: "Hola!"
+    title: "¡Hola %{first_name}!"
     currently_logged_in_as: "Has iniciado la sesión como <strong>%{username}</strong>."
     label_logout_button: "Cerrar sesión"
     your_active_sessions: "Tus sesiones activas"

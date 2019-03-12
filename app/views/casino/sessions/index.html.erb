@@ -2,9 +2,9 @@
   <div class="sessions box">
     <%= render 'messages' %>
     <div class="info">
-      <h1><%= t('sessions.title') %></h1>
+      <h1><%= t('sessions.title', first_name: current_user.first_name) %></h1>
       <p>
-        <%= raw t('sessions.currently_logged_in_as', :username => current_user.username) %>
+        <%= raw t('sessions.currently_logged_in_as', username: current_user.username) %>
       </p>
 
       <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
