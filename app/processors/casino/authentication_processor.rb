@@ -7,7 +7,7 @@ module CASino::AuthenticationProcessor
     authentication_result = nil
     authenticators.each do |authenticator_name, authenticator|
       begin
-        credentials = [ username, password, context ]
+        credentials = [username, password, context]
 
         # Old authenticators that don't accept a 3rd context parameter will have a validate
         # method that only accepts 2 arguments, so check for that.
@@ -28,8 +28,9 @@ module CASino::AuthenticationProcessor
 
   def load_user_data(authenticator_name, username)
     authenticator = authenticators[authenticator_name]
-    return nil if authenticator.nil?
-    return nil unless authenticator.respond_to?(:load_user_data)
+    return unless authenticator
+    return unless authenticator.respond_to?(:load_user_data)
+
     authenticator.load_user_data(username)
   end
 
@@ -50,6 +51,7 @@ module CASino::AuthenticationProcessor
   end
 
   private
+
   def load_authenticator(name)
     gemname, classname = parse_name(name)
 
@@ -64,7 +66,7 @@ module CASino::AuthenticationProcessor
   end
 
   def parse_name(name)
-    [ "casino-#{name.underscore}_authenticator", "#{name.camelize}Authenticator" ]
+    ["casino-#{name.underscore}_authenticator", "#{name.camelize}Authenticator"]
   end
 
   def load_error_message(name, gemname, error)
