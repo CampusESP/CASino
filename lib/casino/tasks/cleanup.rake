@@ -49,6 +49,12 @@ namespace :casino do
       puts "Deleted #{rows_affected} ticket-granting tickets."
     end
 
+    desc 'Remove expired forgot password tokens.'
+    task forgot_password_tokens: :environment do
+      rows_affected = CASino::PasswordResetToken.cleanup.length
+      puts "Deleted #{rows_affected} forgot-password tokens."
+    end
+
     task :acquire_lock do
       $cleanup_lock = File.open('tmp/cleanup.lock', File::RDWR | File::CREAT, 0644)
       lock_aquired = $cleanup_lock.flock(File::LOCK_NB | File::LOCK_EX)
@@ -65,7 +71,8 @@ namespace :casino do
                :proxy_tickets,
                :auth_token_tickets,
                :login_tickets,
-               :two_factor_authenticators] do
+               :two_factor_authenticators,
+               :forgot_password_tokens] do
     end
   end
 end

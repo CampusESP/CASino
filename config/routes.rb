@@ -4,6 +4,9 @@ CASino::Engine.routes.draw do
   resources :sessions, only: [:index, :destroy]
   resources :two_factor_authenticators, only: [:new, :create, :destroy]
 
+  match 'password/forgot' => 'passwords#forgot', via: %w[get post], as: :forgot_password
+  match 'password/change' => 'passwords#change', via: %w[get post], as: :change_password
+
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#logout'

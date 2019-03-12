@@ -19,10 +19,15 @@
         <%= text_field_tag :username, params[:username], autofocus:true %>
         <%= label_tag :password, t('login.label_password') %>
         <%= password_field_tag :password %>
-        <%= label_tag :rememberMe do %>
-          <%= check_box_tag :rememberMe, 1, params[:rememberMe] %> <%= t('login.label_remember_me') %>
+        <% if remember_me_allowed? %>
+          <%= label_tag :rememberMe do %>
+            <%= check_box_tag :rememberMe, 1, params[:rememberMe] %> <%= t('login.label_remember_me') %>
+          <% end %>
         <% end %>
         <%= button_tag t('login.label_button'), :class => 'button' %>
+        <% if forgot_password_allowed? %>
+          <br/><%= link_to t('login.forgot_password'), forgot_password_path %>
+        <% end %>
       <% end %>
     </div>
   </div>

@@ -7,7 +7,7 @@ module CASino::AuthenticationProcessor
     authentication_result = nil
     authenticators.each do |authenticator_name, authenticator|
       begin
-        credentials = [ username, password, context ]
+        credentials = [username, password, context]
 
         # Old authenticators that don't accept a 3rd context parameter will have a validate
         # method that only accepts 2 arguments, so check for that.
@@ -17,20 +17,40 @@ module CASino::AuthenticationProcessor
       rescue CASino::Authenticator::AuthenticatorError => e
         Rails.logger.error "Authenticator '#{authenticator_name}' (#{authenticator.class}) raised an error: #{e}"
       end
-      if data
-        authentication_result = { authenticator: authenticator_name, user_data: data }
-        Rails.logger.info("Credentials for username '#{data[:username]}' successfully validated using authenticator '#{authenticator_name}' (#{authenticator.class})")
-        break
-      end
+
+      next unless data
+
+      authentication_result = { authenticator: authenticator_name, user_data: data }
+      Rails.logger.info("Credentials for username '#{data[:username]}' successfully validated using authenticator '#{authenticator_name}' (#{authenticator.class})")
+      break
     end
     authentication_result
   end
 
+  def find_by_username(username)
+    authenticators.each do |authenticator_name, authenticator|
+      user_data = authenticator.load_user_data(username)
+
+      return { authenticator: authenticator_name, user_data: user_data } if user_data
+    end
+
+    nil
+  end
+
   def load_user_data(authenticator_name, username)
     authenticator = authenticators[authenticator_name]
-    return nil if authenticator.nil?
-    return nil unless authenticator.respond_to?(:load_user_data)
+    return unless authenticator
+    return unless authenticator.respond_to?(:load_user_data)
+
     authenticator.load_user_data(username)
+  end
+
+  def update_password(authenticator_name, username, password)
+    authenticator = authenticators[authenticator_name]
+    return unless authenticator
+    return unless authenticator.respond_to?(:update_password)
+
+    authenticator.update_password(username, password)
   end
 
   def authenticators
@@ -50,6 +70,7 @@ module CASino::AuthenticationProcessor
   end
 
   private
+
   def load_authenticator(name)
     gemname, classname = parse_name(name)
 
@@ -64,7 +85,7 @@ module CASino::AuthenticationProcessor
   end
 
   def parse_name(name)
-    [ "casino-#{name.underscore}_authenticator", "#{name.camelize}Authenticator" ]
+    ["casino-#{name.underscore}_authenticator", "#{name.camelize}Authenticator"]
   end
 
   def load_error_message(name, gemname, error)

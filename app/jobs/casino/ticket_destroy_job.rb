@@ -1,4 +1,4 @@
-class TicketDestroyJob < ActiveJob::Base
+class CASino::TicketDestroyJob < ActiveJob::Base
   include CASino::TicketGrantingTicketProcessor
 
   queue_as :default

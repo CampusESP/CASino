@@ -8,6 +8,8 @@ module CASino
 
     rake_tasks { require 'casino/tasks' }
 
+    config.assets.precompile += %w[casino/zxcvbn.js casino/passwords.js]
+
     initializer :yaml_configuration do |app|
       apply_yaml_config load_file('config/cas.yml')
     end

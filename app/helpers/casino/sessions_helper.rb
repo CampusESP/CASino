@@ -51,7 +51,7 @@ module CASino::SessionsHelper
   end
 
   def sign_out
-    TicketDestroyJob.perform_later(cookies[:tgt], request.user_agent)
+    CASino::TicketDestroyJob.perform_later(cookies[:tgt], request.user_agent)
     cookies.delete :tgt
   end
 
@@ -65,6 +65,18 @@ module CASino::SessionsHelper
     user.login_attempts.create! successful: successful,
                                 user_ip: request.ip,
                                 user_agent: request.user_agent
+  end
+
+  def remember_me_allowed?
+    @remember_me_allowed ||= CASino.config.remember_me_allowed
+  end
+
+  def forgot_password_allowed?
+    @forgot_password_allowed ||= CASino.config.allow_forgot_password && CASino.config.allow_change_password
+  end
+
+  def change_password_allowed?
+    @change_password_allowed ||= CASino.config.allow_change_password
   end
 
   private

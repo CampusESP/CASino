@@ -7,6 +7,8 @@ class CASino::StaticAuthenticator < CASino::Authenticator
   # @param [Hash] options
   def initialize(options)
     @users = options[:users] || {}
+    @first_name_attribute = options[:first_name_attribute] || :first_name
+    @email_attribute = options[:email_attribute] || :email
   end
 
   def validate(username, password)
@@ -18,12 +20,26 @@ class CASino::StaticAuthenticator < CASino::Authenticator
     end
   end
 
+  def update_password(username, password)
+    Rails.logger.info "Password for #{username} should be changed to #{password}."
+    true
+  end
+
   def load_user_data(username)
-    if @users.include?(username)
-      {
-        username: "#{username}",
-        extra_attributes: @users[username].except(:password)
-      }
-    end
+    return unless @users.include?(username)
+
+    user = @users[username]
+    {
+      username: username,
+      extra_attributes: user.except(:password)
+    }
+  end
+
+  def first_name_from_extra_attributes(extra_attributes)
+    extra_attributes[@first_name_attribute]
+  end
+
+  def email_from_extra_attributes(extra_attributes)
+    extra_attributes[@email_attribute]
   end
 end
