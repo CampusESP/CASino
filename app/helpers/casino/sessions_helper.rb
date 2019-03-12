@@ -67,6 +67,10 @@ module CASino::SessionsHelper
                                 user_agent: request.user_agent
   end
 
+  def remember_me_allowed?
+    @remember_me_allowed ||= CASino.config.remember_me_allowed
+  end
+
   private
 
   def handle_signed_in(tgt, options = {})
