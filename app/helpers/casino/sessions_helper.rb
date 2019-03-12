@@ -51,7 +51,7 @@ module CASino::SessionsHelper
   end
 
   def sign_out
-    TicketDestroyJob.perform_later(cookies[:tgt], request.user_agent)
+    CASino::TicketDestroyJob.perform_later(cookies[:tgt], request.user_agent)
     cookies.delete :tgt
   end
 
