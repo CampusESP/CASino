@@ -9,6 +9,8 @@ module CASino
     authenticator_context_builder: ->(params, request) {},
     require_service_rules: false,
     allow_remember_me: true,
+    allow_forgot_password: true,
+    allow_change_password: true,
     logger: Rails.logger,
     frontend: HashWithIndifferentAccess.new(
       sso_name: 'CASino',
@@ -26,6 +28,11 @@ module CASino
     ),
     auth_token_ticket: {
       lifetime: 60
+    },
+    passwords: {
+      forgot_retry_interval: 120,
+      forgot_email_from: false,
+      forgot_token_lifetime: 1800
     },
     login_ticket: {
       lifetime: 600

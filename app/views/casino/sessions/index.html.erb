@@ -8,6 +8,9 @@
       </p>
 
       <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
+      <% if change_password_allowed? %>
+        <%= link_to t('change_password.change_password'), change_password_path, :class => 'button secondary' %>
+      <% end %>
     </div>
 
     <div class="logo">

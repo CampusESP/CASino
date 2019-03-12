@@ -1,0 +1,24 @@
+<% forgot_password_notice = t('forgot_password.notice', default: '') %>
+<div class="container">
+  <% unless forgot_password_notice.blank? %>
+  <div class="notice box">
+    <i class="icon-info"></i> <%= forgot_password_notice %>
+  </div>
+  <% end %>
+  <div class="passwords box small">
+    <%= render 'messages' %>
+    <div class="info form">
+      <h1><%= t('forgot_password.title') %></h1>
+      <%= form_tag(forgot_password_path, method: :post, id: 'forgot-password-form') do %>
+        <%= label_tag :username, t('forgot_password.label_username') %>
+        <%= text_field_tag :username, params[:username], autofocus:true %>
+        <%= button_tag t('forgot_password.label_button'), :class => 'button' %><br/>
+        <%= link_to t('shared.back'), login_path %>
+      <% end %>
+    </div>
+    <div class="logo">
+       <%= image_tag "logo.png" %>
+    </div>
+  </div>
+  <%= render 'footer' %>
+</div>

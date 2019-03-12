@@ -25,6 +25,9 @@
           <% end %>
         <% end %>
         <%= button_tag t('login.label_button'), :class => 'button' %>
+        <% if forgot_password_allowed? %>
+          <br/><%= link_to t('login.forgot_password'), forgot_password_path %>
+        <% end %>
       <% end %>
     </div>
   </div>

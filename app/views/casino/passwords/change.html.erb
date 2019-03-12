@@ -1,0 +1,39 @@
+<% change_password_notice = t('change_password.notice', default: '') %>
+<div class="container">
+  <% unless change_password_notice.blank? %>
+  <div class="notice box">
+    <i class="icon-info"></i> <%= change_password_notice %>
+  </div>
+  <% end %>
+  <div class="passwords box">
+    <%= render 'messages' %>
+
+    <div class="info form">
+      <h1><%= t('change_password.title') %></h1>
+
+      <%= form_tag(nil, method: :post, id: 'change-password-form') do %>
+        <%= hidden_field_tag :authenticator, params[:authenticator] %>
+        <%= hidden_field_tag :username, params[:username] %>
+        <%= hidden_field_tag :token, params[:token] %>
+        <%= label_tag :new_password, t('change_password.label_new_password') %>
+        <%= password_field_tag :new_password, nil, data: { info: user_related_info } %>
+        <label class="check-text">
+          <input type="checkbox" onchange="toggle_pass_hide(this)"/><span class="eye">&#x1f441;</span><span class="hidden">/</span>
+        </label>
+        <meter max="4" id="password-strength-meter"></meter>
+        <div id="password-strength-text"><p><%= I18n.t("change_password.new_password_notice") %></p></div>
+        <%= button_tag t('change_password.label_button'), :class => 'button' %><br/>
+        <%= link_to t('shared.back'), login_path %>
+      <% end %>
+    </div>
+
+    <div class="logo">
+       <%= image_tag "logo.png" %>
+    </div>
+  </div>
+  <%= render 'footer' %>
+</div>
+<%= javascript_include_tag "casino/zxcvbn" %>
+<%= javascript_include_tag "casino/passwords" %>
+<script>
+</script>

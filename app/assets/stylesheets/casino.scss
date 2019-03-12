@@ -1,5 +1,6 @@
 @import "casino/normalize";
 @import "casino/icons";
+@import "casino/passwords";
 
 /// DEFAULT SETTINGS ///
 $buttonColor: #0074ad !default;
@@ -267,7 +268,7 @@ table {
 }
 
 /// SESSIONS ///
-.sessions, .logout {
+.sessions, .logout, .passwords {
   width: 800px;
 
   .info {

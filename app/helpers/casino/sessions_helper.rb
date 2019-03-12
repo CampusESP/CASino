@@ -71,6 +71,14 @@ module CASino::SessionsHelper
     @remember_me_allowed ||= CASino.config.remember_me_allowed
   end
 
+  def forgot_password_allowed?
+    @forgot_password_allowed ||= CASino.config.allow_forgot_password && CASino.config.allow_change_password
+  end
+
+  def change_password_allowed?
+    @change_password_allowed ||= CASino.config.allow_change_password
+  end
+
   private
 
   def handle_signed_in(tgt, options = {})
