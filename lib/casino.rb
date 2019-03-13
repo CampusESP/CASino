@@ -32,7 +32,8 @@ module CASino
     passwords: {
       forgot_retry_interval: 120,
       forgot_email_from: false,
-      forgot_token_lifetime: 1800
+      forgot_token_lifetime: 1800,
+      all_users_related_info: nil
     },
     login_ticket: {
       lifetime: 600

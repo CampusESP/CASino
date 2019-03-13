@@ -2,7 +2,7 @@ class CASino::PasswordsController < CASino::ApplicationController
   include CASino::SessionsHelper
   include CASino::AuthenticationProcessor
 
-  helper_method :user, :user_related_info
+  helper_method :user, :password_related_info
 
   def forgot
     redirect_to(root_path) && return unless forgot_password_allowed?
@@ -92,6 +92,10 @@ class CASino::PasswordsController < CASino::ApplicationController
 
   def new_password
     @new_password ||= params[:new_password]
+  end
+
+  def password_related_info
+    @password_related_info ||= [CASino.config.passwords[:all_users_related_info], user_related_info].compact.join(' ')
   end
 
   def user_related_info

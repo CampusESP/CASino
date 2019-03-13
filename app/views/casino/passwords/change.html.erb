@@ -15,7 +15,7 @@
         <%= text_field_tag :username, user.login, style: "display:none" %>
         <%= hidden_field_tag :token, params[:token] %>
         <%= label_tag :new_password, t('change_password.label_new_password') %>
-        <%= password_field_tag :new_password, nil, data: { info: user_related_info } %>
+        <%= password_field_tag :new_password, nil, data: { info: password_related_info } %>
         <label class="check-text">
           <input type="checkbox" onchange="toggle_pass_hide(this)"/><span class="eye">&#x1f441;</span><span class="hidden">/</span>
         </label>
