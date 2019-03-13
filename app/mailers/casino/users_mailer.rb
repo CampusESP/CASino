@@ -7,11 +7,7 @@ class CASino::UsersMailer < ActionMailer::Base
     return if user.email.blank?
 
     @user = user
-    @link = change_password_url(
-      authenticator: user.authenticator,
-      username: user.username,
-      token: reset_password_token.token
-    )
+    @link = change_password_url(token: reset_password_token.token)
 
     mail(
       from: CASino.config.passwords[:forgot_email_from],

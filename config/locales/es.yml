@@ -8,6 +8,7 @@ es:
     notice: ""
     password_changed: Tu contraseña ha sido cambiada.
     invalid_password: La contraseña que has escrito no cumple los requisitos mínimos de seguridad.
+    invalid_token: El enlace de recuperación de la contraseña no es válido. Por favor, inténtalo nuevamente o contacta con soporte informático.
     password_not_changed: "Ha ocurrido un error al intentar cambiar tu contraseña. Por favor, inténtalo nuevamente o contacta con soporte informático."
     password_strength_level: "Seguridad de la contraseña:"
     password_strength_levels:
@@ -58,7 +59,7 @@ es:
     missing_user: "Debes introducir un nombre de usuario."
     notice: ""
   forgot_password:
-    email_sent: "Hemos enviado a tu correo electrónico las instrucciones para restablecer tu contraseña."
+    email_sent: "Si la dirección que has puesto es correcta, recibirás un correo electrónico con las instrucciones para restablecer tu contraseña."
     email_subject: "Recuperar tu contraseña"
     label_username: "Usuario"
     label_button: "Enviar instrucciones"

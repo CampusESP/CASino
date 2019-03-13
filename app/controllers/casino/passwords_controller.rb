@@ -2,13 +2,13 @@ class CASino::PasswordsController < CASino::ApplicationController
   include CASino::SessionsHelper
   include CASino::AuthenticationProcessor
 
-  helper_method :user_related_info
+  helper_method :user, :user_related_info
 
   def forgot
     redirect_to(root_path) && return unless forgot_password_allowed?
-    return unless request.post? && username
+    return unless request.post? && login
 
-    CASino::UsersMailer.reset_password_email(authenticator_user, new_password_reset_token).deliver_later if user && new_password_reset_token
+    CASino::UsersMailer.reset_password_email(authenticator_user, new_password_reset_token).deliver_later if authenticator_user && new_password_reset_token
 
     flash[:notice] = I18n.t('forgot_password.email_sent')
     redirect_to login_path
@@ -16,7 +16,7 @@ class CASino::PasswordsController < CASino::ApplicationController
 
   def change
     redirect_to(root_path) && return unless change_password_allowed? && (forgot_password_allowed? || signed_in?)
-    redirect_to(login_path) && return unless signed_in? || existing_password_reset_token
+    redirect_to(login_path) && return unless signed_in? || valid_password_reset_token?
 
     return unless request.post? && valid_new_password?
 
@@ -28,21 +28,25 @@ class CASino::PasswordsController < CASino::ApplicationController
 
   private
 
+  def login
+    @login ||= if params[:login].present?
+                 params[:login]
+               else
+                 flash.now[:error] = I18n.t('forgot_password.missing_user')
+                 nil
+               end
+  end
+
   def username
-    @username ||= if params[:username].blank?
-                    flash.now[:error] = I18n.t('forgot_password.missing_user')
-                    nil
-                  else
-                    params[:username]
-                  end
+    @username ||= existing_password_reset_token.username if existing_password_reset_token.present?
   end
 
   def user
-    @user ||= CASino::User.from_authenticator_user(authenticator_user)
+    @user ||= signed_in? ? current_user : CASino::User.from_authenticator_user(authenticator_user)
   end
 
   def authenticator_user
-    @authenticator_user ||= find_by_username(username)
+    @authenticator_user ||= find(login || username, existing_password_reset_token.blank?)
   end
 
   def new_password_reset_token
@@ -53,12 +57,19 @@ class CASino::PasswordsController < CASino::ApplicationController
     )
   end
 
+  def valid_password_reset_token?
+    @valid_password_reset_token ||= if existing_password_reset_token
+                                      true
+                                    else
+                                      flash.now[:error] = I18n.t('change_password.invalid_token')
+                                      false
+                                    end
+  end
+
   def existing_password_reset_token
-    @existing_password_reset_token ||= CASino::PasswordResetToken.active.find_by(
-      authenticator: params[:authenticator],
-      username: params[:username],
-      token: params[:token]
-    )
+    return @existing_password_reset_token if defined?(@existing_password_reset_token)
+
+    @existing_password_reset_token = CASino::PasswordResetToken.active.find_by(token: params[:token]) if params[:token]
   end
 
   def change_password

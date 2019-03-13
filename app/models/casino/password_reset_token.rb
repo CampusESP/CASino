@@ -7,7 +7,7 @@ class CASino::PasswordResetToken < CASino::ApplicationRecord
 
     return if password_reset_token.persisted? && password_reset_token.updated_at > retry_interval.ago
 
-    password_reset_token.token = SecureRandom.urlsafe_base64(24)
+    password_reset_token.token = SecureRandom.urlsafe_base64(30)
     password_reset_token.save!
     password_reset_token
   rescue ActiveRecord::RecordNotUnique

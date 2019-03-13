@@ -21,16 +21,24 @@ class CASino::User < CASino::ApplicationRecord
   end
 
   def first_name
-    authenticator_service.first_name_from_extra_attributes(extra_attributes)
+    @first_name ||= authenticator_service.first_name(all_attributes)
   end
 
   def email
-    authenticator_service.email_from_extra_attributes(extra_attributes)
+    @email ||= authenticator_service.email(all_attributes)
+  end
+
+  def login
+    @login ||= authenticator_service.login(all_attributes)
   end
 
   private
 
   def authenticator_service
     @authenticator_service ||= authenticators[authenticator]
+  end
+
+  def all_attributes
+    @all_attributes ||= extra_attributes.merge username: username
   end
 end

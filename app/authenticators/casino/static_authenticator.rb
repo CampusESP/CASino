@@ -9,6 +9,7 @@ class CASino::StaticAuthenticator < CASino::Authenticator
     @users = options[:users] || {}
     @first_name_attribute = options[:first_name_attribute] || :first_name
     @email_attribute = options[:email_attribute] || :email
+    @login_attribute = options[:login_attribute] || :username
   end
 
   def validate(username, password)
@@ -25,7 +26,7 @@ class CASino::StaticAuthenticator < CASino::Authenticator
     true
   end
 
-  def load_user_data(username)
+  def load_user_data(username, _login = true)
     return unless @users.include?(username)
 
     user = @users[username]
@@ -35,11 +36,15 @@ class CASino::StaticAuthenticator < CASino::Authenticator
     }
   end
 
-  def first_name_from_extra_attributes(extra_attributes)
-    extra_attributes[@first_name_attribute]
+  def first_name(attributes)
+    attributes[@first_name_attribute]
   end
 
-  def email_from_extra_attributes(extra_attributes)
-    extra_attributes[@email_attribute]
+  def email(attributes)
+    attributes[@email_attribute]
+  end
+
+  def login(attributes)
+    attributes[@login_attribute]
   end
 end

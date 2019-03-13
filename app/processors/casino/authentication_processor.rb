@@ -27,9 +27,9 @@ module CASino::AuthenticationProcessor
     authentication_result
   end
 
-  def find_by_username(username)
+  def find(identifier, login = true)
     authenticators.each do |authenticator_name, authenticator|
-      user_data = authenticator.load_user_data(username)
+      user_data = authenticator.load_user_data(identifier, login)
 
       return { authenticator: authenticator_name, user_data: user_data } if user_data
     end

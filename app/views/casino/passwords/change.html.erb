@@ -12,8 +12,7 @@
       <h1><%= t('change_password.title') %></h1>
 
       <%= form_tag(nil, method: :post, id: 'change-password-form') do %>
-        <%= hidden_field_tag :authenticator, params[:authenticator] %>
-        <%= hidden_field_tag :username, params[:username] %>
+        <%= text_field_tag :username, user.login, style: "display:none" %>
         <%= hidden_field_tag :token, params[:token] %>
         <%= label_tag :new_password, t('change_password.label_new_password') %>
         <%= password_field_tag :new_password, nil, data: { info: user_related_info } %>
