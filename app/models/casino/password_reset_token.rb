@@ -1,6 +1,6 @@
 class CASino::PasswordResetToken < CASino::ApplicationRecord
-  scope :active, -> { where('created_at >= ?', CASino.config.passwords[:forgot_token_lifetime].seconds.ago) }
-  scope :inactive, -> { where('created_at < ?', CASino.config.passwords[:forgot_token_lifetime].seconds.ago) }
+  scope :active, -> { where('updated_at >= ?', CASino.config.passwords[:forgot_token_lifetime].seconds.ago) }
+  scope :inactive, -> { where('updated_at < ?', CASino.config.passwords[:forgot_token_lifetime].seconds.ago) }
 
   def self.for(authenticator:, username:, retry_interval:)
     password_reset_token = find_or_initialize_by(authenticator: authenticator, username: username)
