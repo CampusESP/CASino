@@ -65,6 +65,8 @@ es:
     label_button: "Enviar instrucciones"
     notice: "Enviaremos a tu correo electrónico las instrucciones para restablecer tu contraseña."
     title: "Recuperar contraseña"
+  security:
+    title: "Seguridad"
   service_not_allowed:
     title: "Servicio no permitido"
     message: "Este servicio no está configurado para acceder con \"%{service}\". Si crees que esto es un error, contacta con soporte informático."
@@ -80,7 +82,7 @@ es:
     logged_out_with_url: "Continuar:"
   sessions:
     title: "¡Hola %{first_name}!"
-    currently_logged_in_as: "Has iniciado la sesión como <strong>%{username}</strong>."
+    currently_logged_in_as: "Has iniciado tu sesión con el nombre de usuario <strong>%{username}</strong>. Si no eres tú, <a href=\"%{logout_path}\">cierra la sesión</a> para entrar con tu usuario."
     label_logout_button: "Cerrar sesión"
     your_active_sessions: "Tus sesiones activas"
     table:
@@ -92,7 +94,7 @@ es:
     last_login_attempts: Últimos intentos de acceso
     all_login_attempts: Todos los intentos de acceso
   two_factor_authenticators:
-    title: "Autenticación de doble factor"
+    title: "Autenticación de doble factor:"
     setup: "Configurar autenticación de doble factor"
     description: "La autenticación de doble factor solicita que introduzcas una contraseña de un solo uso (OTP) cada vez que intentes acceder a tu cuenta. Esta OTP se puede crear con una aplicación del móvil como <a href='https://es.wikipedia.org/wiki/Google_Authenticator'>Google Authenticator</a>."
     instructions: "Si estás utilizando Google Authenticator, escanea con la aplicación el ćodigo QR que ves a continuación e introduce el código de verificación en la caja de texto de debajo."

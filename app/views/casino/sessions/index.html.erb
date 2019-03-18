@@ -4,25 +4,32 @@
     <div class="info">
       <h1><%= t('sessions.title', first_name: current_user.first_name) %></h1>
       <p>
-        <%= raw t('sessions.currently_logged_in_as', username: current_user.username) %>
+        <%= raw t('sessions.currently_logged_in_as', username: current_user.login, logout_path: logout_path) %>
       </p>
-
-      <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
-      <% if change_password_allowed? %>
-        <%= link_to t('change_password.change_password'), change_password_path, :class => 'button secondary' %>
-      <% end %>
     </div>
 
     <div class="logo">
       <%= image_tag "logo.png" %>
     </div>
 
-    <h3><%= t('two_factor_authenticators.title') %></h3>
-    <% if @two_factor_authenticators.blank? %>
-      <%= t('two_factor_authenticators.disabled') %> - <%= link_to t('two_factor_authenticators.enable'), new_two_factor_authenticator_path %>
-    <% else %>
-      <%= t('two_factor_authenticators.enabled') %> - <%= button_to t('two_factor_authenticators.disable'), two_factor_authenticator_path(@two_factor_authenticators.first.id), method: :delete %>
+    <div class="extra">
+      <%= render partial: 'extra' %>
+    </div>
+
+    <h3><%= t('security.title') %></h3>
+    <ul>
+      <li>
+        <%= t('two_factor_authenticators.title') %>
+        <% if @two_factor_authenticators.blank? %>
+          <%= t('two_factor_authenticators.disabled') %> - <%= link_to t('two_factor_authenticators.enable'), new_two_factor_authenticator_path %>
+        <% else %>
+          <%= t('two_factor_authenticators.enabled') %> - <%= button_to t('two_factor_authenticators.disable'), two_factor_authenticator_path(@two_factor_authenticators.first.id), method: :delete %>
+        <% end %>
+      </li>
+    <% if change_password_allowed? %>
+      <li><%= link_to t('change_password.change_password'), change_password_path %></li>
     <% end %>
+    </ul>
 
     <h3><%= t('sessions.your_active_sessions') %></h3>
     <table width="100%" class="tickets">
@@ -61,6 +68,8 @@
         <% end %>
       </tbody>
     </table>
+
+    <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
 
     <h3><%= t('sessions.last_login_attempts') %></h3>
     <%= render partial: 'casino/login_attempts/table' %>
