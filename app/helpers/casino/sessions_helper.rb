@@ -91,7 +91,7 @@ module CASino::SessionsHelper
           handle_signed_in_with_service(tgt, options)
           return
         rescue Addressable::URI::InvalidURIError => e
-          Rails.logger.warn "Service #{params[:service]} not valid: #{e}"
+          CASino.logger.warn "Service #{params[:service]} not valid: #{e}"
         end
       end
       redirect_to sessions_path, status: :see_other

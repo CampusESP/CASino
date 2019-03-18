@@ -7,11 +7,11 @@ module CASino::TicketGrantingTicketProcessor
     tgt = CASino::TicketGrantingTicket.where(ticket: ticket).first
     unless tgt.nil?
       if tgt.expired?
-        Rails.logger.info "Ticket-granting ticket expired (Created: #{tgt.created_at})"
+        CASino.logger.info "Ticket-granting ticket expired (Created: #{tgt.created_at})"
         tgt.destroy
         nil
       elsif !options[:ignore_two_factor] && tgt.awaiting_two_factor_authentication?
-        Rails.logger.info 'Ticket-granting ticket is valid, but two-factor authentication is pending'
+        CASino.logger.info 'Ticket-granting ticket is valid, but two-factor authentication is pending'
         nil
       elsif same_browser?(tgt.user_agent, user_agent)
         tgt.user_agent = user_agent
@@ -19,7 +19,7 @@ module CASino::TicketGrantingTicketProcessor
         tgt.save!
         tgt
       else
-        Rails.logger.info 'User-Agent changed: ticket-granting ticket not valid for this browser'
+        CASino.logger.info 'User-Agent changed: ticket-granting ticket not valid for this browser'
         nil
       end
     end

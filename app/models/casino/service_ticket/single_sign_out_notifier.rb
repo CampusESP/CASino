@@ -28,7 +28,7 @@ class CASino::ServiceTicket::SingleSignOutNotifier
   end
 
   def send_notification(url, xml)
-    Rails.logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
+    CASino.logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
 
     server, path = split_url(url)
     connection = Faraday.new(server) do |conn|
@@ -39,16 +39,16 @@ class CASino::ServiceTicket::SingleSignOutNotifier
       request.options[:timeout] = CASino.config.service_ticket[:single_sign_out_notification][:timeout]
     end
     if !result.success?
-      Rails.logger.warn "Service #{url} responded to logout notification with code '#{result.status}'!"
+      CASino.logger.warn "Service #{url} responded to logout notification with code '#{result.status}'!"
       return false
     elsif result.env.method != :post
-      Rails.logger.warn "Service #{url} responded to logout notification with an invalid redirect to '#{result.env.url}'!"
+      CASino.logger.warn "Service #{url} responded to logout notification with an invalid redirect to '#{result.env.url}'!"
       return false
     end
-    Rails.logger.info "Logout notification successfully posted to #{url}."
+    CASino.logger.info "Logout notification successfully posted to #{url}."
     true
   rescue Faraday::Error::ClientError, Errno::ETIMEDOUT => error
-    Rails.logger.warn "Failed to send logout notification to service #{url} due to #{error}"
+    CASino.logger.warn "Failed to send logout notification to service #{url} due to #{error}"
     false
   end
 

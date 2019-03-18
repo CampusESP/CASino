@@ -16,7 +16,7 @@ module CASino::ServiceTicketProcessor
     service_url = clean_service_url(service)
     unless service_allowed?(service_url)
       message = "#{service_url} is not in the list of allowed URLs"
-      Rails.logger.error message
+      CASino.logger.error message
       raise ServiceNotAllowedError, message
     end
     service_tickets = ticket_granting_ticket.service_tickets
@@ -41,7 +41,7 @@ module CASino::ServiceTicketProcessor
     service_uri.path = '/' if service_uri.path.blank?
 
     service_uri.normalize.to_s.tap do |clean_service|
-      Rails.logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
+      CASino.logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
     end
   end
 
@@ -55,12 +55,12 @@ module CASino::ServiceTicketProcessor
     else
       result = validate_existing_ticket_for_service(ticket, service, options)
       ticket.update_attribute(:consumed, true)
-      Rails.logger.debug "Consumed ticket '#{ticket.ticket}'"
+      CASino.logger.debug "Consumed ticket '#{ticket.ticket}'"
     end
     if result.success?
-      Rails.logger.info "Ticket '#{ticket.ticket}' for service '#{service}' successfully validated"
+      CASino.logger.info "Ticket '#{ticket.ticket}' for service '#{service}' successfully validated"
     else
-      Rails.logger.send(result.error_severity, result.error_message)
+      CASino.logger.send(result.error_severity, result.error_message)
     end
     result
   end

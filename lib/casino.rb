@@ -61,4 +61,8 @@ module CASino
   }
 
   self.config.merge! defaults.deep_dup
+
+  def self.logger
+    config.logger
+  end
 end
