@@ -8,10 +8,14 @@ class CASino::ServiceTicket::SingleSignOutNotifier
   end
 
   def notify
-    send_notification @service_ticket.service, build_xml
+    send_notification logout_url, build_xml
   end
 
   private
+
+  def logout_url
+    @logout_url ||= CASino::LogoutRule.apply(@service_ticket.service)
+  end
 
   def build_xml
     xml = Builder::XmlMarkup.new(indent: 2)
