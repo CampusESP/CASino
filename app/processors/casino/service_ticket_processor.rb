@@ -51,7 +51,7 @@ module CASino::ServiceTicketProcessor
 
   def validate_ticket_for_service(ticket, service, options = {})
     if ticket.nil?
-      result = ValidationResult.new 'INVALID_TICKET', 'Invalid validate request: Ticket does not exist', :warn
+      result = ValidationResult.new 'INVALID_TICKET', 'Invalid validate request: Ticket does not exist', :info
     else
       result = validate_existing_ticket_for_service(ticket, service, options)
       ticket.update_attribute(:consumed, true)
@@ -69,9 +69,9 @@ module CASino::ServiceTicketProcessor
   def validate_existing_ticket_for_service(ticket, service, options = {})
     service = clean_service_url(service) if ticket.is_a?(CASino::ServiceTicket)
     if ticket.consumed?
-      ValidationResult.new 'INVALID_TICKET', "Ticket '#{ticket.ticket}' already consumed", :warn
+      ValidationResult.new 'INVALID_TICKET', "Ticket '#{ticket.ticket}' already consumed", :info
     elsif ticket.expired?
-      ValidationResult.new 'INVALID_TICKET', "Ticket '#{ticket.ticket}' has expired", :warn
+      ValidationResult.new 'INVALID_TICKET', "Ticket '#{ticket.ticket}' has expired", :info
     elsif service != ticket.service
       ValidationResult.new 'INVALID_SERVICE', "Ticket '#{ticket.ticket}' is not valid for service '#{service}'", :warn
     elsif options[:renew] && !ticket.issued_from_credentials?
