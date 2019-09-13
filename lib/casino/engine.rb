@@ -25,6 +25,7 @@ module CASino
         end
         CASino.config.send("#{k}=", value)
       end
+      CASino.config.logger = Rails.logger if CASino.config.logger.nil?
     end
 
     def load_file(filename)
