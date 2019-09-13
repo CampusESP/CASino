@@ -11,7 +11,7 @@ module CASino
     allow_remember_me: true,
     allow_forgot_password: true,
     allow_change_password: true,
-    logger: Rails.logger,
+    logger: nil,
     frontend: HashWithIndifferentAccess.new(
       sso_name: 'CASino',
       footer_text: 'Powered by <a href="http://rbcas.com/">CASino</a>'
